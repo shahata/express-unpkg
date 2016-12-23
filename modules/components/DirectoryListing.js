@@ -1,5 +1,5 @@
 import React from 'react'
-import byteSize from 'byte-size'
+import prettyBytes from 'pretty-bytes'
 import { getContentType } from '../FileUtils'
 
 const formatTime = (time) =>
@@ -22,7 +22,7 @@ class DirectoryListing extends React.Component {
         <tr key={file} className={index % 2 ? 'odd' : 'even'}>
           <td><a title={file} href={href}>{file}</a></td>
           <td>{isDir ? '-' : getContentType(file)}</td>
-          <td>{isDir ? '-' : byteSize(stats.size)}</td>
+          <td>{isDir ? '-' : prettyBytes(stats.size)}</td>
           <td>{isDir ? '-' : formatTime(stats.mtime)}</td>
         </tr>
       )
