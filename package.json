@@ -2,7 +2,7 @@
   "name": "npm-http-server",
   "version": "4.2.0",
   "description": "Serve files from npm packages over HTTP",
-  "repository": "mjackson/npm-http-server",
+  "repository": "unpkg/npm-http-server",
   "author": "Michael Jackson",
   "license": "MIT",
   "scripts": {
