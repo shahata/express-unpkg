@@ -1,4 +1,5 @@
 import http from 'http'
+import tmpdir from 'os-tmpdir'
 import { join as joinPaths } from 'path'
 import { stat as statFile, readFile } from 'fs'
 import { maxSatisfying as maxSatisfyingVersion } from 'semver'
@@ -7,7 +8,6 @@ import { generateDirectoryIndexHTML } from './IndexUtils'
 import { generateMetadata } from './MetadataUtils'
 import { getPackageInfo } from './RegistryUtils'
 import { createBowerPackage } from './BowerUtils'
-import { createTempPath } from './PathUtils'
 import { getFileType } from './FileUtils'
 import {
   sendNotFoundError,
@@ -30,6 +30,9 @@ const checkLocalCache = (dir, callback) =>
   })
 
 const ResolveExtensions = [ '', '.js', '.json' ]
+
+const createTempPath = (name) =>
+  joinPaths(tmpdir(), `npm-http-server-${name}`)
 
 /**
  * Resolves a path like "lib/file" into "lib/file.js" or
