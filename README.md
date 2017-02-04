@@ -1,27 +1,27 @@
-# npm-http-server [![Travis][build-badge]][build] [![npm package][npm-badge]][npm]
+# express-unpkg [![Travis][build-badge]][build] [![npm package][npm-badge]][npm]
 
-[build-badge]: https://img.shields.io/travis/unpkg/npm-http-server/master.svg?style=flat-square
-[build]: https://travis-ci.org/unpkg/npm-http-server
+[build-badge]: https://img.shields.io/travis/unpkg/express-unpkg/master.svg?style=flat-square
+[build]: https://travis-ci.org/unpkg/express-unpkg
 
-[npm-badge]: https://img.shields.io/npm/v/npm-http-server.svg?style=flat-square
-[npm]: https://www.npmjs.org/package/npm-http-server
+[npm-badge]: https://img.shields.io/npm/v/express-unpkg.svg?style=flat-square
+[npm]: https://www.npmjs.org/package/express-unpkg
 
-npm-http-server is an HTTP server that serves files from npm packages.
+express-unpkg is an HTTP server that serves files from npm packages.
 
 ## Installation
 
 Using [npm](https://www.npmjs.com/):
 
-    $ npm install --save npm-http-server
+    $ npm install --save express-unpkg
 
 Then, use as you would anything else:
 
 ```js
-// using an ES6 transpiler, like babel
-import { createServer } from 'npm-http-server'
+// using ES modules
+import { createServer } from 'express-unpkg'
 
-// not using an ES6 transpiler
-var createServer = require('npm-http-server').createServer
+// using CommonJS modules
+var createServer = require('express-unpkg').createServer
 ```
 
 ## Configuration and Usage
@@ -29,7 +29,7 @@ var createServer = require('npm-http-server').createServer
 Use `createServer` to create a server instance, passing it the options it needs to connect to [npm](https://npmjs.org):
 
 ```js
-import { createServer } from 'npm-http-server'
+import { createServer } from 'express-unpkg'
 
 const server = createServer({
   registryURL: 'https://registry.npmjs.org',  // The URL of the npm registry, defaults to the public registry
@@ -43,11 +43,11 @@ server.listen(8080)
 
 `server` is a standard [node HTTP server](https://nodejs.org/api/http.html#http_class_http_server).
 
-If you'd like to use npm-http-server as part of a larger site, using e.g. a framework like [express](http://expressjs.com/), you can use the `createRequestHandler` function directly. As its name suggests, this function returns another function that can be used as the request handler in a standard node HTTP server. This function accepts the same options as `createServer`.
+If you'd like to use express-unpkg as part of a larger [express](http://expressjs.com/) site, you can use the `createRequestHandler` function directly. As its name suggests, this function returns another function that can be used as the request handler in a standard express server. This function accepts the same options as `createServer`.
 
 ```js
 import express from 'express'
-import { createRequestHandler } from 'npm-http-server'
+import { createRequestHandler } from 'express-unpkg'
 
 const app = express()
 app.use(express.static('public'))
@@ -58,18 +58,12 @@ app.use(createRequestHandler())
 
 ## URL Format
 
-In npm-http-server, the URL is the API. The server recognizes URLs in the format `/package@version/path/to/file` where:
+In express-unpkg, the URL is the API. The server recognizes URLs in the format `/package@version/path/to/file` where:
 
     package         The @scope/name of an npm package (scope is optional)
     version         The version, version range, or tag
     /path/to/file   The path to a file in that package (optional, defaults to main module)
 
-### Bower Support
-
-To get a Bower bundle from a package that supports it use the `/bower.zip` file path. The zip archive that Bower needs is created dynamically based on the config in `bower.json`. The archive contains `bower.json` and all files listed in its `main` section. For convenience, the `version` number is automatically replaced with the one from `package.json` so there is no need to manually update it.
-
-**Please note: *We do NOT recommend JavaScript libraries use Bower*.** It was originally written to solve the problem of bundling CSS and other static assets together with JavaScript in a single package. However, that problem is much more ably solved by bundlers like webpack and Browserify at build time. Additionally, Bower requires JavaScript libraries to check their build into GitHub (see [why this is bad](https://medium.com/@kentcdodds/why-i-don-t-commit-generated-files-to-master-a4d76382564#.txdxyz5gy)) and publish to the Bower registry, both of which are extra overhead that can be avoided by publishing just the source to npm and using a postinstall script to generate the build.
-
 ## Debugging
 
-To enable debug console output, set `DEBUG=npm-http-server` in your environment.
+To enable debug console output, set `DEBUG=express-unpkg` in your environment.

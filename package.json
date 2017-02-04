@@ -1,13 +1,12 @@
 {
-  "name": "npm-http-server",
-  "version": "4.3.0",
-  "description": "Serve files from npm packages over HTTP",
-  "repository": "unpkg/npm-http-server",
+  "name": "express-unpkg",
+  "version": "1.0.0",
+  "description": "Express middleware that serves files from npm",
+  "repository": "unpkg/express-unpkg",
   "author": "Michael Jackson",
   "license": "MIT",
   "scripts": {
     "build": "node ./scripts/build.js",
-    "build-lib": "babel ./modules -d . --copy-files",
     "clean": "git clean -fX .",
     "release": "node ./scripts/release.js",
     "prepublish": "node ./scripts/build.js",
