@@ -99,6 +99,7 @@ export const createRequestHandler = (options = {}) => {
   const autoIndex = options.autoIndex !== false
   const maximumDepth = options.maximumDepth || Number.MAX_VALUE
   const blacklist = options.blacklist || []
+  const isBlacklisted = typeof blacklist === 'function' ? blacklist : config => blacklist.indexOf(config.name) !== -1
 
   const handleRequest = (req, res) => {
     const url = parsePackageURL(req.url)
@@ -108,11 +109,6 @@ export const createRequestHandler = (options = {}) => {
 
     const { pathname, search, query, packageName, version, filename } = url
     const displayName = `${packageName}@${version}`
-
-    const isBlacklisted = blacklist.indexOf(packageName) !== -1
-
-    if (isBlacklisted)
-      return sendText(res, 403, `Package ${packageName} is blacklisted`)
 
     // Step 1: Fetch the package from the registry and store a local copy.
     // Redirect if the URL does not specify an exact version number.
@@ -140,6 +136,9 @@ export const createRequestHandler = (options = {}) => {
             // A valid request for a package we haven't downloaded yet.
             const packageConfig = versions[version]
             const tarballURL = packageConfig.dist.tarball
+
+            if (isBlacklisted(packageConfig))
+              return sendText(res, 403, `Package ${packageName} is blacklisted`)
 
             getPackage(tarballURL, packageDir, (error) => {
               if (error) {
